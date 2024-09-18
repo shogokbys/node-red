@@ -1,0 +1,26 @@
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachineClass
+metadata:
+  name: best-effort-ec-small
+spec:
+  controllerName: vmoperator.vmware.com/ecworker
+  hardware:
+    cpus: 6
+    memory: 24Gi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ec-system
+---
+apiVersion: vmoperator.vmware.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: ec-worker
+  namespace: ec-system
+spec:
+  className: best-effort-ec-small
+  imageName: ec-wrkr.ova
+  powerState: poweredOff
+  vmMetadata:
+    transport: CloudInit
